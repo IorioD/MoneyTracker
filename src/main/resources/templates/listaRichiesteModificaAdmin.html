@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+    <title>MoneyTracker</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <h1 class="text-center">Lista Richieste Modifica </h1>
+    <hr>
+    <div class="container my-2">
+        <table>
+            <tr>
+                <td>
+                    <a th:href="@{/adminhome}" class="btn btn-primary">Home</a> &nbsp;
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="container my-2">
+        <table class="table table-hover ">
+            <thead>
+                <tr>
+                    <th>
+                        ID mod
+                    </th>
+                    <th>
+                        Importo new
+                    </th>
+                    <th>
+                        Data new
+                    </th>
+                    <th>
+                        Descrizione new
+                    </th>
+                    <th>
+                        ID spesa
+                    </th>
+                    <th>
+                        Importo old
+                    </th>
+                    <th>
+                        Data old
+                    </th>
+                    <th>
+                        Descrizione old
+                    </th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="modifica: ${lista_modifiche}">
+                    <td class="bg-info" th:text="${modifica.id_modifica}">
+                    <td class="bg-info" th:text="${modifica.totale_modifica}">
+                    <td class="bg-info" th:text="${modifica.data_modifica}">
+                    <td class="bg-info" th:text="${modifica.descrizione_modifica}">
+                    <td class="bg-warning" th:text="${modifica.id_spesa}">
+                    <td class="bg-warning" th:text="${modifica.totale_spesa}">
+                    <td class="bg-warning" th:text="${modifica.data_spesa}">
+                    <td class="bg-warning" th:text="${modifica.descrizione_spesa}">
+                    <td><a th:href="@{/accettaModifica/{id}(id=${modifica.id_modifica})}" class="btn btn-success">Accetta
+                            </a>
+                            <a th:href="@{/cancellaModifica/{id}(id=${modifica.id_modifica})}" class="btn btn-danger">Rifiuta
+                            </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container my-2">
+        <table>
+            <!-- Refresh Button -->
+            <form th:action="@{/lista_modifiche}" method="get">
+                <input type="submit" value="refresh" class="btn btn-primary" />
+            </form>
+
+            &nbsp; &nbsp;
+            <!-- Logout Button -->
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Sign Out" class="btn btn-dark" />
+            </form>
+        </table>
+    </div>
+
+</body>
+
+</html>

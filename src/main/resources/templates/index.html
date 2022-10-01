@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>MoneyTracker</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+		integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+
+<body>
+	<h1 class="text-center">Welcome to MoneyTracker!</h1>
+	<hr>
+
+
+	<div class="text-center">
+		<img src="https://image.spreadshirtmedia.net/image-server/v1/mp/products/T1459A839PA4459PT28D185245457W10000H10000/views/1,width=550,height=550,appearanceId=839,backgroundColor=F2F2F2/stonks-adesivo.jpg"
+			alt="logo">
+	</div>
+	&nbsp;
+	<div class="container my-2">
+		<form th:action="@{/home}" method="get">
+			<input type="submit" value="login" class="btn btn-primary btn-lg btn-block" />
+		</form>
+	</div>
+</body>
+
+</html>

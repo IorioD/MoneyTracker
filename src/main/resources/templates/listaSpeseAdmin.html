@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+    <title>MoneyTracker</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+
+<body>
+    <h1 class="text-center">Lista Spese Totali </h1>
+    <hr>
+    <div class="container my-2">
+        <table>
+            <tr>
+                <td>
+                    <a th:href="@{/adminhome}" class="btn btn-primary">Home</a> &nbsp;
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="container my-2">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4">
+               <h3> N. Spese : <td th:text="${contatore}"></h3>
+            </div>
+            <div class="col-md-4">
+              <h3> Totale spesa (€): <td th:text="${saldo}"></h3> 
+            </div>
+        </div>
+    </div>
+
+    <div class="container my-2">
+        <table  class="table table-striped table-responsive-md">
+            <thead>
+                <tr>
+                    <th>
+                        ID Spesa
+                    </th>
+                    <th>
+                        Importo(€)
+                    </th>
+                    <th>
+                        Data
+                    </th>
+                    <th>
+                        Matricola
+                    </th>
+                    <th>
+                        Descrizione
+                    </th>
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+                <tr th:each="spesa: ${lista_spese}">
+                    <td th:text="${spesa.id}" >
+                    <td th:text="${spesa.totale}" >
+                    <td th:text="${spesa.data}" >
+                    <td th:text="${spesa.matricola}" >
+                    <td th:text="${spesa.descrizione}" >
+                    <td><a th:href="@{/cancellaSpesa/{id}(id=${spesa.id})}" class="btn btn-danger">Cancella
+                        </a>
+                    </td>
+                </tr>
+        </table>
+    </div>
+
+    <div class="container my-2">
+        <table>
+            <!-- Refresh Button -->
+            <form th:action="@{/lista_spese_admin}" method="get">
+                <input type="submit" value="refresh" class="btn btn-primary" />
+            </form>
+            
+            &nbsp; &nbsp;
+            <!-- Logout Button -->
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Sign Out" class="btn btn-dark" />
+            </form>
+            <div th:if="${error_modifica_pending}">
+                <h3 class="text-center text-danger">Sono presenti modifiche in sospeso per la spesa selezionata!</h3>
+            </div>
+        </table>
+    </div>
+</body>
+
+</html>

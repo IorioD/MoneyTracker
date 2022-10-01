@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>MoneyTracker</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text-center">Aggiorna dati Utente</h1>
+        <hr>
+        <div class="container my-2">
+            <table>
+                <tr>
+                    <td>
+                        <a th:href="@{/lista_utenti}" class="btn btn-primary">Back</a> &nbsp;
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <br>
+        <div>
+            <form th:action="@{/updateUtente}" th:object="${utente}" method="post">
+               
+                <input class="hidden" type="text" th:field="*{id}">
+                <div class="form-row">
+                    <div class="col-md-5 mb-3">
+                        <label for="nome" class="col-sm-2 col-form-label">Nome</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="nome" type="text" th:field="*{nome}"><br>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5 mb-3">
+                        <label for="nome" class="col-sm-2 col-form-label">Cognome</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="nome" type="text" th:field="*{cognome}"><br>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col-md-5 mb-3">
+                        <label for="nome" class="col-sm-2 col-form-label">Matricola</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="nome" type="text" th:field="*{matricola}"><br>
+                        </div>
+                    </div>
+                    <div class="col-md-5 mb-3">
+                        <label for="nome" class="col-sm-2 col-form-label">Pin</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="nome" type="password" th:field="*{pin}"><br>
+                        </div>
+                    </div>
+                </div>
+                    
+                <div class="form-row ">
+                    <label for="nome" class="col-sm-3 col-form-label">Ruolo</label>
+                    <div class="col-lg-3 mb-2">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                                value="UTENTE" th:field="*{ruolo}">
+                            <label class="form-check-label" for="inlineRadio1">USER</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 mb-3">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                                value="ADMIN" th:field="*{ruolo}">
+                            <label class="form-check-label" for="inlineRadio2">ADMIN</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-10 mb-3"> 
+                    <button type="submit" class="btn btn-primary btn-block">Aggiorna</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
