@@ -13,7 +13,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-public class SpringSecurityConfiguration  {
+public class SpringSecurityConfiguration  { 
+	
 	private UserDetailsService userDetailsService;
 
 	public SpringSecurityConfiguration(UserDetailsService userDetailsService) {
