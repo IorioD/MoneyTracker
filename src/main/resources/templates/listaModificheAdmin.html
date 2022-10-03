@@ -63,10 +63,11 @@
                     <td class="bg-warning" th:text="${modifica.totale_spesa}">
                     <td class="bg-warning" th:text="${modifica.data_spesa}">
                     <td class="bg-warning" th:text="${modifica.descrizione_spesa}">
-                    <td><a th:href="@{/accettaModifica/{id}(id=${modifica.id_modifica})}" class="btn btn-success">Accetta
-                            </a>
-                            <a th:href="@{/cancellaModifica/{id}(id=${modifica.id_modifica})}" class="btn btn-danger">Rifiuta
-                            </a>
+                    <td><a th:href="@{/accettaModifica/{id}(id=${modifica.id_modifica})}"
+                            class="btn btn-success">Accetta
+                        </a>
+                        <a th:href="@{/rifiutaModifica/{id}(id=${modifica.id_modifica})}" class="btn btn-danger">Rifiuta
+                        </a>
                     </td>
                 </tr>
             </tbody>
@@ -76,7 +77,7 @@
     <div class="container my-2">
         <table>
             <!-- Refresh Button -->
-            <form th:action="@{/lista_modifiche}" method="get">
+            <form th:action="@{/listaModificheAdmin}" method="get">
                 <input type="submit" value="refresh" class="btn btn-primary" />
             </form>
 

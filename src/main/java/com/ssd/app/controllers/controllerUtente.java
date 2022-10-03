@@ -39,7 +39,7 @@ public class controllerUtente {
         mv = new ModelAndView();
     }
 
-    @GetMapping("/lista_spese")
+    @GetMapping("/listaSpese")
     public ModelAndView getListaSpese( Principal principal) {
         if (principal != null) {
             mv.addObject("error_modifica_pending",false);
@@ -51,11 +51,11 @@ public class controllerUtente {
         return mv;
     }
 
-    @GetMapping("/formaddspesa")
+    @GetMapping("/formAddSpesa")
     public ModelAndView getFormAddSpesa() {
         dtoNuovaSpesa spesa = new dtoNuovaSpesa();
         mv.addObject("spesa", spesa);
-        mv.setViewName("addspesa");
+        mv.setViewName("formAddSpesa");
         return mv;
     }
 
@@ -89,7 +89,7 @@ public class controllerUtente {
             dtoModifica modifica= new dtoModifica(id_spesa, spesa.getTotale(), spesa.getData().toString(), spesa.getDescription());
             mv.addObject("vecchia", spesa);
             mv.addObject("nuova", modifica);
-            mv.setViewName("richiestaModifica");
+            mv.setViewName("formModifica");
             return mv;
         }
             mv.addObject("lista_spese", speseRepo.findAllByUtente(utenteRepo.findByMatricola(principal.getName())));

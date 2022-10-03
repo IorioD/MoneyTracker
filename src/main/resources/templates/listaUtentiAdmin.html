@@ -24,7 +24,7 @@
 
     <div class="container my-2">
         <br />
-        <form th:action="@{/formaddutente}" method="get">
+        <form th:action="@{/formAddUtente}" method="get">
             <input type="submit" value="Inserisci Utente" class="btn btn-light" />
         </form>
     </div>
@@ -52,7 +52,7 @@
                     <td th:text="${utente.nome}" >
                     <td th:text="${utente.cognome}" >
                     <td th:text="${utente.matricola}" >
-                    <td><a th:href="@{/formaUpdateUtente/{id}(id=${utente.id})}" class="btn btn-warning">Aggiorna</a>
+                    <td><a th:href="@{/formUpdateUtente/{id}(id=${utente.id})}" class="btn btn-warning">Aggiorna</a>
                     </td>
                 </tr>
         </table>
@@ -61,7 +61,7 @@
     <div class="container my-2">
         <table>
             <!-- Refresh Button -->
-            <form th:action="@{/lista_utenti}" method="get">
+            <form th:action="@{/listaUtentiAdmin}" method="get">
                 <input type="submit" value="refresh" class="btn btn-primary" />
             </form>
             

@@ -50,8 +50,8 @@ public class controllerAdmin {
         return mv;
     }
     
-    @GetMapping(value="/lista_spese_admin")
-    public ModelAndView getListaAllSpese() {
+    @GetMapping(value="/listaSpeseAdmin")
+    public ModelAndView getListaSpeseAdmin() {
         
         List<spesa> allspese = speseRepo.findAll();
         List<dtoSpesaConMatricola> allspesematricola = new ArrayList<>();
@@ -72,17 +72,17 @@ public class controllerAdmin {
         return mv;     
     }
     
-    @GetMapping(value="/lista_utenti")
-    public  ModelAndView getListaUtenti() {
+    @GetMapping(value="/listaUtentiAdmin")
+    public  ModelAndView getlistaUtentiAdmin() {
         mv.addObject("lista_utenti", utenteRepo.findAll());
         mv.setViewName("listaUtentiAdmin");
         return mv;
     }
     
-    @GetMapping(value="/formaddutente")
+    @GetMapping(value="/formAddUtente")
     public ModelAndView getFormAddUtente() {
         mv.addObject("utente", new utente());
-        mv.setViewName("addUtenteAdmin");
+        mv.setViewName("formAddUtente");
         return mv;
     }
 
@@ -98,13 +98,13 @@ public class controllerAdmin {
 
         utenteRepo.save(encodedUtente);
         
-        return getListaUtenti();
+        return getlistaUtentiAdmin();
 }
 
-    @GetMapping(value="/formaUpdateUtente/{id}")
+    @GetMapping(value="/formUpdateUtente/{id}")
     public ModelAndView getFormUpdateUtente(@PathVariable("id") Long id_utente) {
         mv.addObject("utente", utenteRepo.findById(id_utente));
-        mv.setViewName("updateUtente");
+        mv.setViewName("formUpdateUtente");
         return mv;
     }
     
@@ -121,10 +121,10 @@ public class controllerAdmin {
         utenteRepo.deleteById(utente.getId());
         utenteRepo.save(encodedUtente);
         
-        return getListaUtenti();
+        return getlistaUtentiAdmin();
 }
 
-    @GetMapping(value="/lista_modifiche")
+    @GetMapping(value="/listaModificheAdmin")
     public ModelAndView getListaModifiche() {
         List<modifica> lista_modifiche = new ArrayList<>(modificaRepo.findAll());
         List<dtoModificaDettaglio> lista_modifiche_dto= new ArrayList<>();
@@ -142,12 +142,12 @@ public class controllerAdmin {
         }
 
         mv.addObject("lista_modifiche", lista_modifiche_dto);
-        mv.setViewName("listaRichiesteModificaAdmin");
+        mv.setViewName("listaModificheAdmin");
         return mv;
     }
     
     @GetMapping(value="/accettaModifica/{id}")
-    public ModelAndView processModifica(@PathVariable("id") Long id_modifica) {
+    public ModelAndView accettaModifica(@PathVariable("id") Long id_modifica) {
         modifica modifica = modificaRepo.getReferenceById(id_modifica);
 
         spesa spesa_aggiornata = new spesa(
@@ -163,14 +163,14 @@ public class controllerAdmin {
         return getListaModifiche();
     }
 
-    @GetMapping(value="cancellaModifica/{id}")
-    public ModelAndView cancellaModifica(@PathVariable("id") Long id_modifica) {
+    @GetMapping(value="rifiutaModifica/{id}")
+    public ModelAndView rifiutaModifica(@PathVariable("id") Long id_modifica) {
         modificaRepo.delete(modificaRepo.getReferenceById(id_modifica));
         return getListaModifiche();
     }
     
     @GetMapping(value="cancellaSpesa/{id}")
-    public ModelAndView cancellaSpesa(@PathVariable("id") Long id_spesa) {
+    public ModelAndView rimuoviSpesa(@PathVariable("id") Long id_spesa) {
         if(modificaRepo.existsByVecchiaSpesa(speseRepo.getReferenceById(id_spesa))){
             List<spesa> allspese = speseRepo.findAll();
             List<dtoSpesaConMatricola> allspesematricola = new ArrayList<>();
@@ -192,7 +192,7 @@ public class controllerAdmin {
         }
         
         speseRepo.delete(speseRepo.getReferenceById(id_spesa));
-        return getListaAllSpese();
+        return getListaSpeseAdmin();
     }
     
 

@@ -39,22 +39,21 @@ public class SpringSecurityConfiguration  {
 		.antMatchers("/").permitAll()
 		.antMatchers(
 			"/home",
-			"/lista_spese",
-			"/formaddspesa",
+			"/listaSpese",
+			"/formAddSpesa",
 			"/saveSpesa",
 			"/formRichiestaModifica",
 			"/saveRichiestaModifica")
 			.authenticated()
-		.antMatchers(
+		.antMatchers("/adminhome",
+			"/listaModificheAdmin",
 			"/accettaModifica",
-			"/adminhome",
-			"/cancellaModifica",
+			"/rifiutaModifica",
+			"/listaSpeseAdmin",
 			"/cancellaSpesa",
-			"/formaddutente",
+			"/listaUtentiAdmin",
 			"/formUpdateUtente",
-			"/lista_modifiche",
-			"/lista_utenti",
-			"/lista_spese_admin",
+			"/formAddUtente",
 			"/saveUtente",
 			"/updateUtente")
 			.hasAuthority("ADMIN")
