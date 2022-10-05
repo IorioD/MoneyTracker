@@ -146,7 +146,7 @@ public class controllerAdmin {
         return mv;
     }
     
-    @GetMapping(value="/accettaModifica/{id}")
+    @PostMapping(value="/accettaModifica/{id}")
     public ModelAndView accettaModifica(@PathVariable("id") Long id_modifica) {
         modifica modifica = modificaRepo.getReferenceById(id_modifica);
 
@@ -163,13 +163,13 @@ public class controllerAdmin {
         return getListaModifiche();
     }
 
-    @GetMapping(value="rifiutaModifica/{id}")
+    @PostMapping(value="rifiutaModifica/{id}")
     public ModelAndView rifiutaModifica(@PathVariable("id") Long id_modifica) {
         modificaRepo.delete(modificaRepo.getReferenceById(id_modifica));
         return getListaModifiche();
     }
     
-    @GetMapping(value="cancellaSpesa/{id}")
+    @PostMapping(value="cancellaSpesa/{id}")
     public ModelAndView rimuoviSpesa(@PathVariable("id") Long id_spesa) {
         if(modificaRepo.existsByVecchiaSpesa(speseRepo.getReferenceById(id_spesa))){
             List<spesa> allspese = speseRepo.findAll();

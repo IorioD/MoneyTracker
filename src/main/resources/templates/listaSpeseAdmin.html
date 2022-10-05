@@ -69,8 +69,10 @@
                     <td th:text="${spesa.data}" >
                     <td th:text="${spesa.matricola}" >
                     <td th:text="${spesa.descrizione}" >
-                    <td><a th:href="@{/cancellaSpesa/{id}(id=${spesa.id})}" class="btn btn-danger">Cancella
-                        </a>
+                    <td>
+                    <form th:action="@{/cancellaSpesa/{id}(id=${spesa.id})}" method="post">
+                        <input type="submit" value="Cancella" class="btn btn-danger" />
+                    </form>
                     </td>
                 </tr>
         </table>
@@ -79,10 +81,8 @@
     <div class="container my-2">
         <table>
             <!-- Refresh Button -->
-            <form th:action="@{/listaSpeseAdmin}" method="get">
-                <input type="submit" value="refresh" class="btn btn-primary" />
-            </form>
-            
+            <a th:href="@{/listaSpeseAdmin}" class="btn btn-primary">refresh</a>
+
             &nbsp; &nbsp;
             <!-- Logout Button -->
             <form th:action="@{/logout}" method="post">

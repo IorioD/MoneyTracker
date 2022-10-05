@@ -29,19 +29,13 @@
     <div class="container my-2">
 
         <!-- lista spese totali -->
-        <form th:action="@{/listaSpeseAdmin}" method="get">
-            <input type="submit" value="Visualizza Spese complessive" class="btn btn-primary btn-lg btn-block" />
-        </form>
+        <a th:href="@{/listaSpeseAdmin}" class="btn btn-primary btn-lg btn-block">Visualizza Spese complessive</a>
         <br>
         <!-- lista richieste modifica -->
-        <form th:action="@{/listaModificheAdmin}" method="get">
-            <input type="submit" value="Visualizza richieste di modifica" class="btn btn-warning btn-lg btn-block" />
-        </form>
+        <a th:href="@{/listaModificheAdmin}" class="btn btn-info btn-lg btn-block">Visualizza richieste di modifica</a>
         <br>
         <!-- lista utenti -->
-        <form th:action="@{/listaUtentiAdmin}" method="get">
-            <input type="submit" value="Visualizza lista utenti" class="btn btn-secondary    btn-lg btn-block" />
-        </form>
+        <a th:href="@{/listaUtentiAdmin}" class="btn btn-warning btn-lg btn-block">Visualizza lista utenti</a>
         <br>
     </div>
     

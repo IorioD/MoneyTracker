@@ -31,9 +31,8 @@
 
     <div class="container my-2">
         <br />
-        <form th:action="@{/formAddUtente}" method="get">
-            <input type="submit" value="Inserisci Utente" class="btn btn-light" />
-        </form>
+        <a th:href="@{/formAddUtente}" class="btn btn-info">Inserisci Utente</a>
+
     </div>
 
     <div class="container my-2">
@@ -68,10 +67,8 @@
     <div class="container my-2">
         <table>
             <!-- Refresh Button -->
-            <form th:action="@{/listaUtentiAdmin}" method="get">
-                <input type="submit" value="refresh" class="btn btn-primary" />
-            </form>
-            
+            <a th:href="@{/listaUtentiAdmin}" class="btn btn-primary">refresh</a>
+
             &nbsp; &nbsp;
             <!-- Logout Button -->
             <form th:action="@{/logout}" method="post">

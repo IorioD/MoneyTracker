@@ -70,11 +70,16 @@
                     <td class="bg-warning" th:text="${modifica.totale_spesa}">
                     <td class="bg-warning" th:text="${modifica.data_spesa}">
                     <td class="bg-warning" th:text="${modifica.descrizione_spesa}">
-                    <td><a th:href="@{/accettaModifica/{id}(id=${modifica.id_modifica})}"
-                            class="btn btn-success">Accetta
-                        </a>
-                        <a th:href="@{/rifiutaModifica/{id}(id=${modifica.id_modifica})}" class="btn btn-danger">Rifiuta
-                        </a>
+
+                    <td>
+                        <form th:action="@{/accettaModifica/{id}(id=${modifica.id_modifica})}" method="post">
+                            <input type="submit" value="Accetta" class="btn btn-success" />
+                        </form>
+                    </td>
+                    <td>
+                        <form th:action="@{/rifiutaModifica/{id}(id=${modifica.id_modifica})}" method="post">
+                            <input type="submit" value="Rifiuta" class="btn btn-danger" />
+                        </form>  
                     </td>
                 </tr>
             </tbody>
@@ -84,10 +89,7 @@
     <div class="container my-2">
         <table>
             <!-- Refresh Button -->
-            <form th:action="@{/listaModificheAdmin}" method="get">
-                <input type="submit" value="refresh" class="btn btn-primary" />
-            </form>
-
+            <a th:href="@{/listaModificheAdmin}" class="btn btn-primary">refresh</a>
             &nbsp; &nbsp;
             <!-- Logout Button -->
             <form th:action="@{/logout}" method="post">

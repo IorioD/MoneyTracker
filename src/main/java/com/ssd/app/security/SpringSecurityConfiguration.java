@@ -47,10 +47,10 @@ public class SpringSecurityConfiguration  {
 			.authenticated()
 		.antMatchers("/adminhome",
 			"/listaModificheAdmin",
-			"/accettaModifica",
-			"/rifiutaModifica",
+			"/accettaModifica/*",
+			"/rifiutaModifica/*",
 			"/listaSpeseAdmin",
-			"/cancellaSpesa",
+			"/cancellaSpesa/*",
 			"/listaUtentiAdmin",
 			"/formUpdateUtente",
 			"/formAddUtente",

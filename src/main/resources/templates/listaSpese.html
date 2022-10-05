@@ -27,10 +27,8 @@
     </div>
 
     <div class="container my-2">
-        <br />
-        <form th:action="@{/formAddSpesa}" method="get">
-            <input type="submit" value="Nuova spesa" class="btn btn-light" />
-        </form>
+        <br/>
+        <a th:href="@{/formAddSpesa}" type="submit" class="btn btn-info">Nuova spesa</a>
     </div>
 
     <div class="container my-2">
@@ -65,10 +63,8 @@
     <div class="container my-2">
         <table>
             <!-- Refresh Button -->
-            <form th:action="@{/listaSpese}" method="get">
-                <input type="submit" value="refresh" class="btn btn-primary" />
-            </form>
-            
+            <a th:href="@{/listaSpese}" class="btn btn-primary">refresh</a>
+
             &nbsp; &nbsp;
             <!-- Logout Button -->
             <form th:action="@{/logout}" method="post">
