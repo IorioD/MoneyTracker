@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 import com.ssd.app.model.utente;
 import com.ssd.app.repository.utenteRepo;
+import lombok.extern.apachecommons.CommonsLog;
 
 @Controller
+@CommonsLog
 public class controllerHome{
     
     private ModelAndView mv;
@@ -42,14 +44,16 @@ public class controllerHome{
     }
 
     @GetMapping("/access_denied")
-    public ModelAndView getAccessDeniedPage(){
+    public ModelAndView getAccessDeniedPage(Principal principal){
         mv.setViewName("accessdenied");
+        log.warn("[HOME"+principal.getName()+"]RILEVATO TENTATIVO DI ACCESSO NON AUTORIZZATO");
         return mv;
     }
 
     @GetMapping("/error")
-    public ModelAndView getErrorpage(){
+    public ModelAndView getErrorpage(Principal principal){
         mv.setViewName("error");
+        log.warn("[HOME "+principal.getName()+"]RILEVATO FORM ILLEGALE");
         return mv;
     }
 }

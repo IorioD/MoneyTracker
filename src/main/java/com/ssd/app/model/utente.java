@@ -40,4 +40,8 @@ public class utente {
     @Column(name="role",nullable = false)
     private String ruolo;
 
+
+    public String print(){
+        return "Matricola : " + matricola +"| Nome : " + nome +"| Cognome : " + cognome +"| ruolo : " + ruolo;
+    }
 }

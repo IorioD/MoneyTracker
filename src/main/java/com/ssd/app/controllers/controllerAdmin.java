@@ -1,5 +1,6 @@
 package com.ssd.app.controllers;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,8 @@ import com.ssd.app.repository.modificaRepo;
 import com.ssd.app.repository.speseRepo;
 import com.ssd.app.repository.utenteRepo;
 
+import lombok.extern.apachecommons.CommonsLog;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +30,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 @Controller
+@CommonsLog
 public class controllerAdmin {
     
     private ModelAndView mv;
@@ -71,7 +75,7 @@ public class controllerAdmin {
     }
 
     @PostMapping(value="/saveUtente")
-    public ModelAndView saveUtente(@ModelAttribute("utente") utente utente) {
+    public ModelAndView saveUtente(@ModelAttribute("utente") utente utente,Principal principal) {
         utente encodedUtente = new utente();
         encodedUtente.setNome(utente.getNome());
         encodedUtente.setCognome(utente.getCognome());
@@ -81,7 +85,7 @@ public class controllerAdmin {
         encodedUtente.setPin(new BCryptPasswordEncoder().encode(utente.getPin()));
 
         utenteRepo.save(encodedUtente);
-        
+        log.info("[ADMIN " + principal.getName() + "] INSERITO NUOVO UTENTE " + encodedUtente.print());
         return getlistaUtentiAdmin();
 }
 
@@ -93,7 +97,7 @@ public class controllerAdmin {
     }
     
     @PostMapping(value="/updateUtente")
-    public ModelAndView updateUtente(@ModelAttribute("utente") utente utente) {
+    public ModelAndView updateUtente(@ModelAttribute("utente") utente utente,Principal principal) {
         utente encodedUtente = new utente();
         encodedUtente.setNome(utente.getNome());
         encodedUtente.setCognome(utente.getCognome());
@@ -105,6 +109,7 @@ public class controllerAdmin {
         utenteRepo.deleteById(utente.getId());
         utenteRepo.save(encodedUtente);
         
+        log.info("[ADMIN " + principal.getName() + "] AGGIORNATI DATI UTENTE " + encodedUtente.getId() +" "+  encodedUtente.print());
         return getlistaUtentiAdmin();
 }
 
@@ -131,7 +136,7 @@ public class controllerAdmin {
     }
     
     @PostMapping(value="/accettaModifica/{id}")
-    public ModelAndView accettaModifica(@PathVariable("id") Long id_modifica) {
+    public ModelAndView accettaModifica(@PathVariable("id") Long id_modifica,Principal principal) {
         modifica modifica = modificaRepo.getReferenceById(id_modifica);
 
         spesa spesa_aggiornata = new spesa(
@@ -144,21 +149,25 @@ public class controllerAdmin {
         modificaRepo.delete(modifica);
         speseRepo.delete(modifica.getVecchiaSpesa());
         speseRepo.save(spesa_aggiornata);
+
+        log.warn("[ADMIN " + principal.getName() + "] PROCESSATA MODIFICA ID: " + id_modifica +" ESITO : Accettata");
         return getListaModifiche();
     }
 
     @PostMapping(value="rifiutaModifica/{id}")
-    public ModelAndView rifiutaModifica(@PathVariable("id") Long id_modifica) {
+    public ModelAndView rifiutaModifica(@PathVariable("id") Long id_modifica,Principal principal) {
         modificaRepo.delete(modificaRepo.getReferenceById(id_modifica));
+        log.warn("[ADMIN " + principal.getName() + "] PROCESSATA MODIFICA ID: " + id_modifica +" ESITO : Rifiutata");
         return getListaModifiche();
     }
     
     @PostMapping(value="cancellaSpesa/{id}")
-    public ModelAndView rimuoviSpesa(@PathVariable("id") Long id_spesa) {
+    public ModelAndView rimuoviSpesa(@PathVariable("id") Long id_spesa,Principal principal) {
         if(modificaRepo.existsByVecchiaSpesa(speseRepo.getReferenceById(id_spesa))){
             return ComponiListaSpese(true);
         }
         speseRepo.delete(speseRepo.getReferenceById(id_spesa));
+        log.warn("[ADMIN " + principal.getName() + "] SPESA ID : "+ id_spesa + " Cancellata");
         return getListaSpeseAdmin();
     }
     

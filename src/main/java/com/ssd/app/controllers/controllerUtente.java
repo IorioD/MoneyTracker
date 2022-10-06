@@ -22,7 +22,10 @@ import com.ssd.app.repository.modificaRepo;
 import com.ssd.app.repository.speseRepo;
 import com.ssd.app.repository.utenteRepo;
 
+import lombok.extern.apachecommons.CommonsLog;
+
 @Controller
+@CommonsLog
 public class controllerUtente {
 
     private ModelAndView mv;
@@ -49,6 +52,9 @@ public class controllerUtente {
             return mv;
         } 
         mv.setViewName("index");
+
+        log.info("TEST");
+
         return mv;
     }
 
@@ -78,6 +84,7 @@ public class controllerUtente {
                             data);
             speseRepo.save(spesa);
 
+            log.info("[UTENTE " + principal.getName() + "]" + spesa.print());
             return getListaSpese(principal);
         }
         mv.setViewName("index");
@@ -121,6 +128,9 @@ public class controllerUtente {
             modifica modifica = new modifica(vecchiaSpesa,dtomodifica.getNuovoTotale(),data , Encode.forHtml(dtomodifica.getNuovaDescrizione()));
 
             modificaRepo.save(modifica);
+
+            log.info("[UTENTE " + principal.getName() + "]" + modifica.print());
+
             return getListaSpese(principal);
 
         }

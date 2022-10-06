@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.xml.crypto.Data;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,5 +41,33 @@ public class modifica {
         this.nuovoTotale =nuovoTotale;
         this.nuovaData = nuovaData;
         this.nuovaDescrizione=nuovaDescrizione;
+    }
+
+    public String print(){
+        String TotaleMod = null;
+        String DataMod = null; 
+        String DescMod = null;
+
+        if(nuovoTotale == vecchiaSpesa.getTotale()){
+            TotaleMod="";
+        }else{
+            TotaleMod= "| Modifica Totale: " + nuovoTotale;
+        }
+
+        if(nuovaData.isEqual(vecchiaSpesa.getData())){
+            DataMod="";
+        }else{
+            DataMod=  "| Modifica Data: " +nuovaData.toString();
+        }
+
+        if(nuovaDescrizione.compareTo(vecchiaSpesa.getDescription())==0){
+            DescMod ="";
+        }else{
+            DescMod = "| Modifica Descrizione: " +nuovaDescrizione;
+        }
+        
+        return "INSERITA NUOVA MODIFICA = MATRICOLA : " + vecchiaSpesa.getUtente().getMatricola() +
+                "| ID_SPESA : " + vecchiaSpesa.getId()  
+                + TotaleMod + DataMod + DescMod;
     }
 }

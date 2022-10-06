@@ -57,4 +57,9 @@ public class spesa {
         this.totale=totale;
         this.description=description;
     }
+
+    public String print(){
+        return "NUOVA SPESA AGGIUNTA = Matricola : " + utente.getMatricola() + " | Totale : " + totale + "Euro | data : " + data.toString() + "| Descrizione : " + description;
+    }
+
 }
