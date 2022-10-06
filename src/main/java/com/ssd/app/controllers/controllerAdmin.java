@@ -3,6 +3,7 @@ package com.ssd.app.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -52,24 +53,7 @@ public class controllerAdmin {
     
     @GetMapping(value="/listaSpeseAdmin")
     public ModelAndView getListaSpeseAdmin() {
-        
-        List<spesa> allspese = speseRepo.findAll();
-        List<dtoSpesaConMatricola> allspesematricola = new ArrayList<>();
-        Integer contatoreSpese = 0;
-        Float Saldo = 0F;
-
-        for (spesa spesa : allspese) {
-            dtoSpesaConMatricola dto = new dtoSpesaConMatricola(spesa.getId(), spesa.getTotale(), spesa.getData(), spesa.getUtente().getMatricola(), spesa.getDescription());
-            allspesematricola.add(dto);
-            contatoreSpese++;
-            Saldo=Saldo+spesa.getTotale();
-        }
-        mv.addObject("error_modifica_pending",false);
-        mv.addObject("contatore",contatoreSpese);
-        mv.addObject("saldo", Saldo);
-        mv.addObject("lista_spese", allspesematricola);
-        mv.setViewName("listaSpeseAdmin");
-        return mv;     
+        return ComponiListaSpese(false);     
     }
     
     @GetMapping(value="/listaUtentiAdmin")
@@ -133,11 +117,11 @@ public class controllerAdmin {
                                             modifica.getId(), 
                                             modifica.getNuovoTotale(), 
                                             modifica.getNuovaData(), 
-                                            modifica.getNuovaDescrizione(), 
+                                            Encode.forHtml(modifica.getNuovaDescrizione())  , 
                                             modifica.getVecchiaSpesa().getId(), 
                                             modifica.getVecchiaSpesa().getTotale(), 
                                             modifica.getVecchiaSpesa().getData(), 
-                                            modifica.getVecchiaSpesa().getDescription());
+                                            Encode.forHtml(modifica.getVecchiaSpesa().getDescription()) );
             lista_modifiche_dto.add(dto);
         }
 
@@ -172,28 +156,30 @@ public class controllerAdmin {
     @PostMapping(value="cancellaSpesa/{id}")
     public ModelAndView rimuoviSpesa(@PathVariable("id") Long id_spesa) {
         if(modificaRepo.existsByVecchiaSpesa(speseRepo.getReferenceById(id_spesa))){
-            List<spesa> allspese = speseRepo.findAll();
-            List<dtoSpesaConMatricola> allspesematricola = new ArrayList<>();
-            Integer contatoreSpese = 0;
-            Float Saldo = 0F;
-
-            for (spesa spesa : allspese) {
-                dtoSpesaConMatricola dto = new dtoSpesaConMatricola(spesa.getId(), spesa.getTotale(), spesa.getData(), spesa.getUtente().getMatricola(), spesa.getDescription());
-                allspesematricola.add(dto);
-                contatoreSpese++;
-                Saldo=Saldo+spesa.getTotale();
-            }
-            mv.addObject("error_modifica_pending",true);
-            mv.addObject("contatore",contatoreSpese);
-            mv.addObject("saldo", Saldo);
-            mv.addObject("lista_spese", allspesematricola);
-            mv.setViewName("listaSpeseAdmin");
-            return mv;  
+            return ComponiListaSpese(true);
         }
-        
         speseRepo.delete(speseRepo.getReferenceById(id_spesa));
         return getListaSpeseAdmin();
     }
     
 
+    private ModelAndView ComponiListaSpese(boolean errore){
+        List<spesa> allspese = speseRepo.findAll();
+        List<dtoSpesaConMatricola> allspesematricola = new ArrayList<>();
+        Integer contatoreSpese = 0;
+        Float Saldo = 0F;
+
+        for (spesa spesa : allspese) {
+            dtoSpesaConMatricola dto = new dtoSpesaConMatricola(spesa.getId(), spesa.getTotale(), spesa.getData(), spesa.getUtente().getMatricola(), Encode.forHtml(spesa.getDescription()));
+            allspesematricola.add(dto);
+            contatoreSpese++;
+            Saldo=Saldo+spesa.getTotale();
+        }
+        mv.addObject("error_modifica_pending",errore);
+        mv.addObject("contatore",contatoreSpese);
+        mv.addObject("saldo", Saldo);
+        mv.addObject("lista_spese", allspesematricola);
+        mv.setViewName("listaSpeseAdmin");
+        return mv;  
+    }
 }

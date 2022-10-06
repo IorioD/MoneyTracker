@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.StringTokenizer;
 
+import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,7 +47,7 @@ public class controllerUtente {
             mv.addObject("lista_spese", speseRepo.findAllByUtente(utenteRepo.findByMatricola(principal.getName())));
             mv.setViewName("listaSpese");
             return mv;
-        }
+        } 
         mv.setViewName("index");
         return mv;
     }
@@ -70,8 +71,11 @@ public class controllerUtente {
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm");
             LocalDateTime data = LocalDateTime.parse(fulldate, formatter);
-            spesa spesa = new spesa(utenteRepo.findByMatricola(principal.getName()), dtospesa.getTotale(),
-                    dtospesa.getDescription(), data);
+            spesa spesa = new spesa(
+                            utenteRepo.findByMatricola(principal.getName()), 
+                            dtospesa.getTotale(),
+                            Encode.forHtml(dtospesa.getDescription()), 
+                            data);
             speseRepo.save(spesa);
 
             return getListaSpese(principal);
@@ -114,7 +118,7 @@ public class controllerUtente {
 
             spesa vecchiaSpesa = speseRepo.getReferenceById(dtomodifica.getIdvecchiaSpesa());
 
-            modifica modifica = new modifica(vecchiaSpesa,dtomodifica.getNuovoTotale(),data , dtomodifica.getNuovaDescrizione());
+            modifica modifica = new modifica(vecchiaSpesa,dtomodifica.getNuovoTotale(),data , Encode.forHtml(dtomodifica.getNuovaDescrizione()));
 
             modificaRepo.save(modifica);
             return getListaSpese(principal);
@@ -123,5 +127,4 @@ public class controllerUtente {
         mv.setViewName("index");
         return mv;
     }
-
 }

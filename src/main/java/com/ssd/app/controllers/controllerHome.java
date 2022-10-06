@@ -46,4 +46,10 @@ public class controllerHome{
         mv.setViewName("accessdenied");
         return mv;
     }
+
+    @GetMapping("/error")
+    public ModelAndView getErrorpage(){
+        mv.setViewName("error");
+        return mv;
+    }
 }
