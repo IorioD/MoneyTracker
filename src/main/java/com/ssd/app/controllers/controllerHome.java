@@ -2,12 +2,14 @@ package com.ssd.app.controllers;
 
 import java.security.Principal;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-import com.ssd.app.model.utente;
-import com.ssd.app.repository.utenteRepo;
 import lombok.extern.apachecommons.CommonsLog;
 
 @Controller
@@ -15,31 +17,21 @@ import lombok.extern.apachecommons.CommonsLog;
 public class controllerHome{
     
     private ModelAndView mv;
-    
-    @Autowired
-    private utenteRepo utenteRepo;
 
     public controllerHome(){
         mv = new ModelAndView();
     }
 
-    @GetMapping({"/","/logout_success"})
+    @GetMapping({"/"})
     public ModelAndView index(){
         mv.setViewName("index");
         return mv;
     }
 
-    @GetMapping("/login")
-    public ModelAndView getlogin(){
-        mv.setViewName("login");
-        return mv;
-    }
-
     @GetMapping("/home")
     public ModelAndView getHomepage(Principal Principal){
-        utente utenteAuth = utenteRepo.findByMatricola(Principal.getName());
         mv.setViewName("userhome");  
-        mv.addObject("nome",utenteAuth.getNome());
+        mv.addObject("nome",Principal.getName());
         return mv;
     }
 
@@ -56,4 +48,12 @@ public class controllerHome{
         log.warn("[HOME "+principal.getName()+"]RILEVATO FORM ILLEGALE");
         return mv;
     }
+
+    @PostMapping("/logout")
+    public ModelAndView logout(HttpServletRequest request) throws ServletException{
+        request.logout();
+        mv.setViewName("index");
+        return mv;
+    }
+
 }

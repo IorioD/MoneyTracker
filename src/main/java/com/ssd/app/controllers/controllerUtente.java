@@ -20,7 +20,6 @@ import com.ssd.app.model.modifica;
 import com.ssd.app.model.spesa;
 import com.ssd.app.repository.modificaRepo;
 import com.ssd.app.repository.speseRepo;
-import com.ssd.app.repository.utenteRepo;
 
 import lombok.extern.apachecommons.CommonsLog;
 
@@ -34,9 +33,6 @@ public class controllerUtente {
     private speseRepo speseRepo;
 
     @Autowired
-    private utenteRepo utenteRepo;
-
-    @Autowired
     private modificaRepo modificaRepo;
 
     public controllerUtente() {
@@ -47,14 +43,11 @@ public class controllerUtente {
     public ModelAndView getListaSpese( Principal principal) {
         if (principal != null) {
             mv.addObject("error_modifica_pending",false);
-            mv.addObject("lista_spese", speseRepo.findAllByUtente(utenteRepo.findByMatricola(principal.getName())));
+            mv.addObject("lista_spese", speseRepo.findAllByMatricola(principal.getName()));
             mv.setViewName("listaSpese");
             return mv;
         } 
         mv.setViewName("index");
-
-        log.info("TEST");
-
         return mv;
     }
 
@@ -78,7 +71,7 @@ public class controllerUtente {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm");
             LocalDateTime data = LocalDateTime.parse(fulldate, formatter);
             spesa spesa = new spesa(
-                            utenteRepo.findByMatricola(principal.getName()), 
+                            principal.getName(), 
                             dtospesa.getTotale(),
                             Encode.forHtml(dtospesa.getDescription()), 
                             data);
@@ -103,7 +96,7 @@ public class controllerUtente {
             mv.setViewName("formModifica");
             return mv;
         }
-            mv.addObject("lista_spese", speseRepo.findAllByUtente(utenteRepo.findByMatricola(principal.getName())));
+            mv.addObject("lista_spese", speseRepo.findAllByMatricola(principal.getName()));
             mv.addObject("error_modifica_pending",true);
             mv.setViewName("listaSpese");
             return mv;

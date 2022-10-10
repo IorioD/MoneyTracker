@@ -32,34 +32,33 @@ public class spesa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @ManyToOne
-    @JoinColumn(name="user_id",referencedColumnName = "id")
-    private utente utente;
-    @Column(name="totale",length = 20,nullable = false)
+    @Column(name="matricola",nullable = false)
+    private String matricola;
+    @Column(name="totale",nullable = false)
     private float totale;
-    @Column(name="data",length = 20,nullable = false)
+    @Column(name="data",nullable = false)
     private LocalDateTime data;
-    @Column(name="description",length = 20,nullable = false)
+    @Column(name="description",nullable = false)
     private String description;
 
-    public spesa(utente utente, float totale, String description,int giorno, int mese, int anno, int ora, int minuti){
+    public spesa(String  matricola, float totale, String description,int giorno, int mese, int anno, int ora, int minuti){
         LocalDate date = LocalDate.of(anno, mese, giorno);
         LocalTime time = LocalTime.of(ora, minuti);
         this.data = LocalDateTime.of(date, time);
-        this.utente=utente;
+        this.matricola=matricola;
         this.totale=totale;
         this.description=description;
     }
 
-    public spesa(utente utente, float totale, String description, LocalDateTime data){
+    public spesa(String  matricola, float totale, String description, LocalDateTime data){
         this.data=data;
-        this.utente=utente;
+        this.matricola=matricola;
         this.totale=totale;
         this.description=description;
     }
 
     public String print(){
-        return "NUOVA SPESA AGGIUNTA = Matricola : " + utente.getMatricola() + " | Totale : " + totale + "Euro | data : " + data.toString() + "| Descrizione : " + description;
+        return "NUOVA SPESA AGGIUNTA = Matricola : " + matricola + " | Totale : " + totale + "Euro | data : " + data.toString() + "| Descrizione : " + description;
     }
 
 }

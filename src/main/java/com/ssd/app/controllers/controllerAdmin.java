@@ -14,10 +14,8 @@ import com.ssd.app.model.dtoModificaDettaglio;
 import com.ssd.app.model.dtoSpesaConMatricola;
 import com.ssd.app.model.modifica;
 import com.ssd.app.model.spesa;
-import com.ssd.app.model.utente;
 import com.ssd.app.repository.modificaRepo;
 import com.ssd.app.repository.speseRepo;
-import com.ssd.app.repository.utenteRepo;
 
 import lombok.extern.apachecommons.CommonsLog;
 
@@ -40,9 +38,6 @@ public class controllerAdmin {
     private speseRepo speseRepo;
 
     @Autowired
-    private utenteRepo utenteRepo;
-
-    @Autowired
     private modificaRepo modificaRepo;
 
     public controllerAdmin(){
@@ -59,59 +54,6 @@ public class controllerAdmin {
     public ModelAndView getListaSpeseAdmin() {
         return ComponiListaSpese(false);     
     }
-    
-    @GetMapping(value="/listaUtentiAdmin")
-    public  ModelAndView getlistaUtentiAdmin() {
-        mv.addObject("lista_utenti", utenteRepo.findAll());
-        mv.setViewName("listaUtentiAdmin");
-        return mv;
-    }
-    
-    @GetMapping(value="/formAddUtente")
-    public ModelAndView getFormAddUtente() {
-        mv.addObject("utente", new utente());
-        mv.setViewName("formAddUtente");
-        return mv;
-    }
-
-    @PostMapping(value="/saveUtente")
-    public ModelAndView saveUtente(@ModelAttribute("utente") utente utente,Principal principal) {
-        utente encodedUtente = new utente();
-        encodedUtente.setNome(utente.getNome());
-        encodedUtente.setCognome(utente.getCognome());
-        encodedUtente.setMatricola(utente.getMatricola());
-        encodedUtente.setRuolo(utente.getRuolo());
-        
-        encodedUtente.setPin(new BCryptPasswordEncoder().encode(utente.getPin()));
-
-        utenteRepo.save(encodedUtente);
-        log.info("[ADMIN " + principal.getName() + "] INSERITO NUOVO UTENTE " + encodedUtente.print());
-        return getlistaUtentiAdmin();
-}
-
-    @GetMapping(value="/formUpdateUtente/{id}")
-    public ModelAndView getFormUpdateUtente(@PathVariable("id") Long id_utente) {
-        mv.addObject("utente", utenteRepo.findById(id_utente));
-        mv.setViewName("formUpdateUtente");
-        return mv;
-    }
-    
-    @PostMapping(value="/updateUtente")
-    public ModelAndView updateUtente(@ModelAttribute("utente") utente utente,Principal principal) {
-        utente encodedUtente = new utente();
-        encodedUtente.setNome(utente.getNome());
-        encodedUtente.setCognome(utente.getCognome());
-        encodedUtente.setMatricola(utente.getMatricola());
-        encodedUtente.setRuolo(utente.getRuolo());
-        
-        encodedUtente.setPin(new BCryptPasswordEncoder().encode(utente.getPin()));
-
-        utenteRepo.deleteById(utente.getId());
-        utenteRepo.save(encodedUtente);
-        
-        log.info("[ADMIN " + principal.getName() + "] AGGIORNATI DATI UTENTE " + encodedUtente.getId() +" "+  encodedUtente.print());
-        return getlistaUtentiAdmin();
-}
 
     @GetMapping(value="/listaModificheAdmin")
     public ModelAndView getListaModifiche() {
@@ -141,7 +83,7 @@ public class controllerAdmin {
 
         spesa spesa_aggiornata = new spesa(
             modifica.getVecchiaSpesa().getId(), 
-            modifica.getVecchiaSpesa().getUtente(), 
+            modifica.getVecchiaSpesa().getMatricola(), 
             modifica.getNuovoTotale(),
             modifica.getNuovaData(),
             modifica.getNuovaDescrizione());
@@ -179,7 +121,7 @@ public class controllerAdmin {
         Float Saldo = 0F;
 
         for (spesa spesa : allspese) {
-            dtoSpesaConMatricola dto = new dtoSpesaConMatricola(spesa.getId(), spesa.getTotale(), spesa.getData(), spesa.getUtente().getMatricola(), Encode.forHtml(spesa.getDescription()));
+            dtoSpesaConMatricola dto = new dtoSpesaConMatricola(spesa.getId(), spesa.getTotale(), spesa.getData(), spesa.getMatricola(), Encode.forHtml(spesa.getDescription()));
             allspesematricola.add(dto);
             contatoreSpese++;
             Saldo=Saldo+spesa.getTotale();

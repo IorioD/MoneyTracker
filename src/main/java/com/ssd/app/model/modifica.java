@@ -8,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.xml.crypto.Data;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -66,7 +65,7 @@ public class modifica {
             DescMod = "| Modifica Descrizione: " +nuovaDescrizione;
         }
         
-        return "INSERITA NUOVA MODIFICA = MATRICOLA : " + vecchiaSpesa.getUtente().getMatricola() +
+        return "INSERITA NUOVA MODIFICA = MATRICOLA : " + vecchiaSpesa.getMatricola() +
                 "| ID_SPESA : " + vecchiaSpesa.getId()  
                 + TotaleMod + DataMod + DescMod;
     }
