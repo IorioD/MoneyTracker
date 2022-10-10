@@ -2,47 +2,30 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
-<head>
-    <meta charset="UTF-8">
-    <meta
-  		http-equiv="Content-Security-Policy"
-  		content="default-src 'self'; img-src https://*;  style-src https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css;	 " />
-    <title>MoneyTracker</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Security-Policy"
+            content="default-src 'self'; img-src https://*;  style-src https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css;	 " />
+        <title>MoneyTracker</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    </head>
 
-<body>
-    <h1 class="text-center">MoneyTracker</h1>
-    <hr>
-    <h2 class="text-center">Benvenuto alla sezione amministrativa</td> ! </h2>
-    <div class="container my-2">
-        <table>
-            <tr>
-                <td>
-                    <a th:href="@{/home}" class="btn btn-primary">Home</a> &nbsp;
-                </td>
-            </tr>
-        </table>
-    </div>
+    <body class="bg-secondary text-white">
+    <div th:replace="template :: navbar">...</div>
     <br>
+    <h2 class="text-center">Benvenuto alla Sezione Amministrativa</td> ! </h2>
+    <hr>
+
     <div class="container my-2">
 
         <!-- lista spese totali -->
-        <a th:href="@{/listaSpeseAdmin}" class="btn btn-primary btn-lg btn-block">Visualizza Spese complessive</a>
+        <a th:href="@{/listaSpeseAdmin}" class="btn btn-info btn-lg btn-block">Resoconto Spese</a>
         <br>
         <!-- lista richieste modifica -->
-        <a th:href="@{/listaModificheAdmin}" class="btn btn-info btn-lg btn-block">Visualizza richieste di modifica</a>
+        <a th:href="@{/listaModificheAdmin}" class="btn btn-warning btn-lg btn-block">Richieste di Modifica</a>
         <br>
     </div>
-    
-    <div class="container">
-        <!-- logout form  -->
-        <form th:action="@{/logout}" method="post">
-            <input type="submit" value="Sign Out" class="btn btn-dark" />
-        </form>
-    </div>
-
 </body>
 
 </html>

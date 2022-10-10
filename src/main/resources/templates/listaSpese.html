@@ -2,33 +2,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
-<head>
-    <meta charset="UTF-8">
-    <meta
-  		http-equiv="Content-Security-Policy"
-  		content="default-src 'self'; img-src https://*;  style-src https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css;	 " />
-    <title>MoneyTracker</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-</head>
-
-<body>
-    
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Security-Policy"
+            content="default-src 'self'; img-src https://*;  style-src https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css;	 " />
+        <title>MoneyTracker</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    </head>
+    <body class="bg-secondary text-white">
+    <div th:replace="template :: navbar">...</div>
     <h1 class="text-center">Lista Spese </h1>
     <hr>
     <div class="container my-2">
-        <table>
-            <tr>
-                <td>
-                    <a th:href="@{/home}" class="btn btn-primary">Home</a> &nbsp;
-                </td>
-            </tr>
-        </table>
-    </div>
-
-    <div class="container my-2">
-        <br/>
-        <a th:href="@{/formAddSpesa}" type="submit" class="btn btn-info">Nuova spesa</a>
+            <a th:href="@{/formAddSpesa}" type="submit" class="btn btn-info">+</a>
+            <a th:href="@{/listaSpese}" class="btn btn-info float-right">&#8634</a>
     </div>
 
     <div class="container my-2">
@@ -54,26 +42,19 @@
                     <td th:text="${spesa.totale}" >
                     <td th:text="${spesa.data}" >
                     <td th:text="${spesa.description}" >
-                    <td><a th:href="@{/formRichiestaModifica/{id}(id=${spesa.id})}" class="btn btn-warning">Richiedi Modifica</a>
+                    <td><a th:href="@{/formRichiestaModifica/{id}(id=${spesa.id})}" class="btn btn-warning">&#9997</a>
                     </td>
                 </tr>
         </table>
     </div>
 
-    <div class="container my-2">
-        <table>
+    <div class="container my-2">       
             <!-- Refresh Button -->
-            <a th:href="@{/listaSpese}" class="btn btn-primary">refresh</a>
+            
 
-            &nbsp; &nbsp;
-            <!-- Logout Button -->
-            <form th:action="@{/logout}" method="post">
-                <input type="submit" value="Sign Out" class="btn btn-dark" />
-            </form>
             <div th:if="${error_modifica_pending}">
             <h3 class="text-center text-danger">Sono presenti modifiche in sospeso per la spesa selezionata!</h3>
             </div>
-        </table>
        
     </div>
 

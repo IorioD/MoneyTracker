@@ -4,99 +4,83 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta
-  		http-equiv="Content-Security-Policy"
-  		content="default-src 'self'; img-src https://*;  style-src https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css;	 " />
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src https://*;  style-src https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css;	 " />
     <title>MoneyTracker</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 
-<body>
-
+<body class="bg-secondary text-white">
+    <div th:replace="template :: navbar">...</div>
+    <br>
     <h1 class="text-center">Lista Richieste Modifica </h1>
     <hr>
     <div class="container my-2">
-        <table>
-            <tr>
-                <td>
-                    <a th:href="@{/home}" class="btn btn-primary">Home</a> &nbsp;
-                </td>
-                <td>
-                    <a th:href="@{/adminhome}" class="btn btn-primary">AdminHome</a> &nbsp;
-                </td>
-            </tr>
-        </table>
+        <!-- Refresh Button -->
+        <a th:href="@{/listaModificheAdmin}" class="btn btn-primary float-right">&#8634</a>
     </div>
-
+    <br><br>
     <div class="container my-2">
         <table class="table table-hover ">
             <thead>
                 <tr>
                     <th>
-                        ID mod
+                        ID
                     </th>
                     <th>
-                        Importo new
+                        Importo
                     </th>
                     <th>
-                        Data new
+                        Data
                     </th>
                     <th>
-                        Descrizione new
+                        Descrizione
                     </th>
                     <th>
-                        ID spesa
+                        ID
                     </th>
                     <th>
-                        Importo old
+                        Importo
                     </th>
                     <th>
-                        Data old
+                        Data
                     </th>
                     <th>
-                        Descrizione old
+                        Descrizione
                     </th>
-                    <th>Actions</th>
+                    <th>Actions
+
+                    </th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="modifica: ${lista_modifiche}">
-                    <td class="bg-info" th:text="${modifica.id_modifica}">
-                    <td class="bg-info" th:text="${modifica.totale_modifica}">
-                    <td class="bg-info" th:text="${modifica.data_modifica}">
-                    <td class="bg-info" th:text="${modifica.descrizione_modifica}">
-                    <td class="bg-warning" th:text="${modifica.id_spesa}">
-                    <td class="bg-warning" th:text="${modifica.totale_spesa}">
-                    <td class="bg-warning" th:text="${modifica.data_spesa}">
-                    <td class="bg-warning" th:text="${modifica.descrizione_spesa}">
+                    <td  th:text="${modifica.id_modifica}">
+                    <td  th:text="${modifica.totale_modifica}">
+                    <td  th:text="${modifica.data_modifica}">
+                    <td  th:text="${modifica.descrizione_modifica}">
+                    <td class="bg-info" th:text="${modifica.id_spesa}">
+                    <td class="bg-info" th:text="${modifica.totale_spesa}">
+                    <td class="bg-info" th:text="${modifica.data_spesa}">
+                    <td class="bg-info" th:text="${modifica.descrizione_spesa}">
 
                     <td>
                         <form th:action="@{/accettaModifica/{id}(id=${modifica.id_modifica})}" method="post">
-                            <input type="submit" value="Accetta" class="btn btn-success" />
+                            <input type="submit" value="&#10004" class="btn btn-success" />
                         </form>
                     </td>
                     <td>
                         <form th:action="@{/rifiutaModifica/{id}(id=${modifica.id_modifica})}" method="post">
-                            <input type="submit" value="Rifiuta" class="btn btn-danger" />
-                        </form>  
+                            <input type="submit" value="&#10060" class="btn btn-danger" />
+                        </form>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <div class="container my-2">
-        <table>
-            <!-- Refresh Button -->
-            <a th:href="@{/listaModificheAdmin}" class="btn btn-primary">refresh</a>
-            &nbsp; &nbsp;
-            <!-- Logout Button -->
-            <form th:action="@{/logout}" method="post">
-                <input type="submit" value="Sign Out" class="btn btn-dark" />
-            </form>
-        </table>
-    </div>
 
 </body>
 

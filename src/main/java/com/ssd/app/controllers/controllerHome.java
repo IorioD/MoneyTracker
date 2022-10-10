@@ -5,10 +5,8 @@ import java.security.Principal;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import lombok.extern.apachecommons.CommonsLog;
 
@@ -49,11 +47,16 @@ public class controllerHome{
         return mv;
     }
 
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     public ModelAndView logout(HttpServletRequest request) throws ServletException{
         request.logout();
         mv.setViewName("index");
         return mv;
     }
 
+    @GetMapping("/template")
+    public ModelAndView template(Principal principal){
+        mv.setViewName("template");
+        return mv;
+    }
 }
