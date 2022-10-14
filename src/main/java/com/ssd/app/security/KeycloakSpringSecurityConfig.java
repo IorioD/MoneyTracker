@@ -44,24 +44,3 @@ public class KeycloakSpringSecurityConfig extends KeycloakWebSecurityConfigurerA
     }
 
 }
-
-/* .antMatchers(
-			"/home",
-			"/listaSpese",
-			"/formAddSpesa",
-			"/saveSpesa",
-			"/formRichiestaModifica",
-			"/saveRichiestaModifica")
-			.authenticated()
-		    .antMatchers("/adminhome",
-			"/listaModificheAdmin",
-			"/accettaModifica/*",
-			"/rifiutaModifica/*",
-			"/listaSpeseAdmin",
-			"/cancellaSpesa/*",
-			"/listaUtentiAdmin",
-			"/formUpdateUtente",
-			"/formAddUtente",
-			"/saveUtente",
-			"/updateUtente")
-			.hasAuthority("ADMIN") */

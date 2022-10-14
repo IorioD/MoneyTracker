@@ -1,4 +1,4 @@
-package com.ssd.app;
+package com.ssd.app.security;
 
 import org.apache.catalina.connector.Connector;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;

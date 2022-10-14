@@ -36,14 +36,14 @@ public class controllerHome{
     @GetMapping("/access_denied")
     public ModelAndView getAccessDeniedPage(Principal principal){
         mv.setViewName("accessdenied");
-        log.warn("[HOME"+principal.getName()+"]RILEVATO TENTATIVO DI ACCESSO NON AUTORIZZATO");
+        log.warn("[HOME "+principal.getName()+"]RILEVATO TENTATIVO DI ACCESSO NON AUTORIZZATO");
         return mv;
     }
 
     @GetMapping("/error")
     public ModelAndView getErrorpage(Principal principal){
         mv.setViewName("error");
-        log.warn("[HOME "+principal.getName()+"]RILEVATO FORM ILLEGALE");
+        log.warn("[HOME "+principal.getName()+"] RILEVATO ERRORE DI SISTEMA");
         return mv;
     }
 
@@ -51,12 +51,6 @@ public class controllerHome{
     public ModelAndView logout(HttpServletRequest request) throws ServletException{
         request.logout();
         mv.setViewName("index");
-        return mv;
-    }
-
-    @GetMapping("/template")
-    public ModelAndView template(Principal principal){
-        mv.setViewName("template");
         return mv;
     }
 }

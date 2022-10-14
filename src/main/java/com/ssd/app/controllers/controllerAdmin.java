@@ -52,7 +52,17 @@ public class controllerAdmin {
     public ModelAndView getListaSpeseAdmin() {
         return ComponiListaSpese(false);     
     }
-
+ 
+    @PostMapping(value="cancellaSpesa/{id}")
+    public ModelAndView rimuoviSpesa(@PathVariable("id") Long id_spesa,Principal principal) {
+        if(modificaRepo.existsByVecchiaSpesa(speseRepo.getReferenceById(id_spesa))){
+            return ComponiListaSpese(true);
+        }
+        speseRepo.delete(speseRepo.getReferenceById(id_spesa));
+        log.warn("[ADMIN " + principal.getName() + "] SPESA ID : "+ id_spesa + " Cancellata");
+        return getListaSpeseAdmin();
+    }
+    
     @GetMapping(value="/listaModificheAdmin")
     public ModelAndView getListaModifiche() {
         List<modifica> lista_modifiche = new ArrayList<>(modificaRepo.findAll());
@@ -100,17 +110,6 @@ public class controllerAdmin {
         log.warn("[ADMIN " + principal.getName() + "] PROCESSATA MODIFICA ID: " + id_modifica +" ESITO : Rifiutata");
         return getListaModifiche();
     }
-    
-    @PostMapping(value="cancellaSpesa/{id}")
-    public ModelAndView rimuoviSpesa(@PathVariable("id") Long id_spesa,Principal principal) {
-        if(modificaRepo.existsByVecchiaSpesa(speseRepo.getReferenceById(id_spesa))){
-            return ComponiListaSpese(true);
-        }
-        speseRepo.delete(speseRepo.getReferenceById(id_spesa));
-        log.warn("[ADMIN " + principal.getName() + "] SPESA ID : "+ id_spesa + " Cancellata");
-        return getListaSpeseAdmin();
-    }
-    
 
     private ModelAndView ComponiListaSpese(boolean errore){
         List<spesa> allspese = speseRepo.findAll();
