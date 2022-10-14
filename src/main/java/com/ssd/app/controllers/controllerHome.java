@@ -20,7 +20,7 @@ public class controllerHome{
         mv = new ModelAndView();
     }
 
-    @GetMapping({"/"})
+    @GetMapping({"/",""})
     public ModelAndView index(){
         mv.setViewName("index");
         return mv;

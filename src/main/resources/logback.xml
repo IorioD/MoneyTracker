@@ -1,6 +1,6 @@
 <configuration>
     <property name="LOG_PATTERN" value="%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %p %m%n" />
-    <property name="APP_LOG_ROOT" value="D:/VSCode-Workspace/SSD_project/app"/>
+    <property name="APP_LOG_ROOT" value="D:/VSCode-Workspace/SSD_project/MoneyTracker"/>
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
