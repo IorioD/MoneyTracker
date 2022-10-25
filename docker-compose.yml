@@ -4,7 +4,7 @@ services:
 #------------------------------------------applicazione maoneytracker
   app: 
     build: .
-    container_name: moneytracker
+    #container_name: moneytracker
     #restart: always
     ports:
       - 8081:8081
@@ -18,7 +18,7 @@ services:
 #------------------------------------------database business logic
   db:
     build: ./docker/sql
-    container_name: mt_database
+    #container_name: mt_database
     restart: always
     ports:
       - 3307:3306
@@ -34,7 +34,7 @@ services:
 #------------------------------------------database keycloak
   postgres: 
     image: postgres:13.2
-    container_name: kc_database
+    #container_name: kc_database
     restart: always
     environment:
       POSTGRES_DB: keycloak
@@ -45,7 +45,7 @@ services:
 #------------------------------------------istanza keycloak
   keycloak:
     image: jboss/keycloak:15.0.2
-    container_name: mt_keycloak
+    #container_name: mt_keycloak
     ports:
       - "8080:8080"
     restart: always
@@ -59,14 +59,13 @@ services:
       DB_PASSWORD: keycloak
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: admin
-      #KEYCLOAK_FRONTEND_URL: http://localhost:8080/auth
     networks:
       - local-keycloak
       - local-app
 #------------------------------------------vault
   vault:
     image: vault
-    container_name: mt_vault
+    #container_name: mt_vault
     ports:
       - "8200:8200"
     restart: always

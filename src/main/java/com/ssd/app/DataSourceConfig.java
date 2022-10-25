@@ -31,15 +31,5 @@ public class DataSourceConfig {
                 .username(response.getData().getUsername())
                 .password(response.getData().getPassword())
                 .build();
-        /* System.out.println("-----------------------------------------------------------");
-        System.out.println(response.getData().getUsername() + " - " + response.getData().getPassword());
-        System.out.println("-----------------------------------------------------------");
-
-        return DataSourceBuilder.create()
-                .driverClassName("com.mysql.cj.jdbc.Driver")
-                .url("jdbc:mysql://db:3306/ssd_app")
-                .username("user")
-                .password("1234")
-                .build(); */
     }
 }
