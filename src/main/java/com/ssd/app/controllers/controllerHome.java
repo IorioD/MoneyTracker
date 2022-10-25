@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 import lombok.extern.apachecommons.CommonsLog;
 
+import java.net.URISyntaxException;
+
 @Controller
 @CommonsLog
 public class controllerHome{
@@ -21,7 +23,7 @@ public class controllerHome{
     }
 
     @GetMapping({"/",""})
-    public ModelAndView index(){
+    public ModelAndView index() throws URISyntaxException{
         mv.setViewName("index");
         return mv;
     }

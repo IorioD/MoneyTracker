@@ -1,0 +1,2 @@
+GRANT ALL ON ssd_app.* TO user;
+FLUSH PRIVILEGES;
