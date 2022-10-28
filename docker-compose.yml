@@ -4,10 +4,11 @@ services:
 #------------------------------------------applicazione maoneytracker
   app: 
     build: .
-    #container_name: moneytracker
-    #restart: always
+    container_name: moneytracker
+    restart: unless-stopped
     ports:
       - 8081:8081
+      - 9443:9443
     depends_on:
       db:
         condition: service_healthy
@@ -18,7 +19,7 @@ services:
 #------------------------------------------database business logic
   db:
     build: ./docker/sql
-    #container_name: mt_database
+    container_name: mt_database
     restart: always
     ports:
       - 3307:3306
@@ -34,7 +35,7 @@ services:
 #------------------------------------------database keycloak
   postgres: 
     image: postgres:13.2
-    #container_name: kc_database
+    container_name: kc_database
     restart: always
     environment:
       POSTGRES_DB: keycloak
@@ -45,7 +46,7 @@ services:
 #------------------------------------------istanza keycloak
   keycloak:
     image: jboss/keycloak:15.0.2
-    #container_name: mt_keycloak
+    container_name: mt_keycloak
     ports:
       - "8080:8080"
     restart: always
@@ -65,7 +66,7 @@ services:
 #------------------------------------------vault
   vault:
     image: vault
-    #container_name: mt_vault
+    container_name: mt_vault
     ports:
       - "8200:8200"
     restart: always
@@ -77,7 +78,7 @@ services:
       - IPC_LOCK
     entrypoint: vault server -config=/vault/config/vault.json
     healthcheck:
-      test: curl -f http://vault:8200/v1/sys/health || exit 0
+      test: ["CMD", "curl http://vault:8200/v1/sys/health || exit 0"]
       interval: 30s
       timeout: 5s
       retries: 15
@@ -87,4 +88,4 @@ services:
 #------------------------------------------networks
 networks:
   local-keycloak: #connessione kc-postges
-  local-app: #connessione app-keycloak
+  local-app: #connessione app-keycloak-vault-db
