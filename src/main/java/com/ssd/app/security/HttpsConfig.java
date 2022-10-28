@@ -1,4 +1,4 @@
-package com.ssd.app.security;
+/* package com.ssd.app.security;
 
 import org.apache.catalina.connector.Connector;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
@@ -55,3 +55,4 @@ public class HttpsConfig {
         return connector;
     }
 }
+ */
