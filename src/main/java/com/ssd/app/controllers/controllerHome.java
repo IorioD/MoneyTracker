@@ -22,7 +22,7 @@ public class controllerHome{
         mv = new ModelAndView();
     }
 
-    @GetMapping({"/",""})
+    @GetMapping({"/","","/index"})
     public ModelAndView index() throws URISyntaxException{
         mv.setViewName("index");
         return mv;
@@ -31,6 +31,13 @@ public class controllerHome{
     @GetMapping("/home")
     public ModelAndView getHomepage(Principal Principal){
         mv.setViewName("userhome");  
+        mv.addObject("nome",Principal.getName());
+        return mv;
+    }
+
+    @GetMapping("/terms")
+    public ModelAndView getTerms(Principal Principal){
+        mv.setViewName("terms");  
         mv.addObject("nome",Principal.getName());
         return mv;
     }

@@ -57,12 +57,9 @@ services:
       DB_DATABASE: keycloak
       DB_USER: keycloak
       DB_PASSWORD: keycloak
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: admin
+      #KEYCLOAK_USER: admin
+      #KEYCLOAK_PASSWORD: admin
       PROXY_ADDRESS_FORWARDING: true
-      #KEYCLOAK_IMPORT: 
-    #volumes:
-      #- ./docker/keycloak/keycloak_docker_https.json:
     networks:
       - local-keycloak
       - local-app
@@ -81,7 +78,7 @@ services:
       - IPC_LOCK
     entrypoint: vault server -config=/vault/config/vault.json
     healthcheck:
-      test: ["CMD", "curl http://vault:8200/v1/sys/seal-status || exit 0"] #http://vault:8200/v1/sys/seal-status health
+      test: ["CMD", "curl http://vault:8200/v1/sys/seal-status || exit 0"]
       interval: 30s
       timeout: 5s
       retries: 15
