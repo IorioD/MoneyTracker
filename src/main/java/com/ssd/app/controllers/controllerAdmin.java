@@ -22,9 +22,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-
-
-
 @Controller
 @CommonsLog
 public class controllerAdmin {
@@ -50,13 +47,13 @@ public class controllerAdmin {
     
     @GetMapping(value="/listaSpeseAdmin")
     public ModelAndView getListaSpeseAdmin() {
-        return ComponiListaSpese(false);     
+        return componiListaSpese(false);     
     }
  
     @PostMapping(value="cancellaSpesa/{id}")
     public ModelAndView rimuoviSpesa(@PathVariable("id") Long id_spesa,Principal principal) {
         if(modificaRepo.existsByVecchiaSpesa(speseRepo.getReferenceById(id_spesa))){
-            return ComponiListaSpese(true);
+            return componiListaSpese(true);
         }
         speseRepo.delete(speseRepo.getReferenceById(id_spesa));
         log.warn("[ADMIN " + principal.getName() + "] SPESA ID : "+ id_spesa + " Cancellata");
@@ -65,29 +62,18 @@ public class controllerAdmin {
     
     @GetMapping(value="/listaModificheAdmin")
     public ModelAndView getListaModifiche() {
-        List<modifica> lista_modifiche = new ArrayList<>(modificaRepo.findAll());
-        List<dtoModificaDettaglio> lista_modifiche_dto= new ArrayList<>();
-        for (modifica modifica : lista_modifiche) {
-            dtoModificaDettaglio dto = new dtoModificaDettaglio(
-                                            modifica.getId(), 
-                                            modifica.getNuovoTotale(), 
-                                            modifica.getNuovaData(), 
-                                            Encode.forHtml(modifica.getNuovaDescrizione())  , 
-                                            modifica.getVecchiaSpesa().getId(), 
-                                            modifica.getVecchiaSpesa().getTotale(), 
-                                            modifica.getVecchiaSpesa().getData(), 
-                                            Encode.forHtml(modifica.getVecchiaSpesa().getDescription()) );
-            lista_modifiche_dto.add(dto);
-        }
-
-        mv.addObject("lista_modifiche", lista_modifiche_dto);
-        mv.setViewName("listaModificheAdmin");
-        return mv;
+        
+        return componiListaModifiche(false);
     }
     
     @PostMapping(value="/accettaModifica/{id}")
     public ModelAndView accettaModifica(@PathVariable("id") Long id_modifica,Principal principal) {
         modifica modifica = modificaRepo.getReferenceById(id_modifica);
+        
+        if(modifica.getVecchiaSpesa().getMatricola().compareTo(principal.getName())==0){
+            log.warn("[ADMIN " + principal.getName() + "] CONFLITTO TENTATA MODIFICA ID: " + id_modifica +" ESITO : Bloccata");
+            return componiListaModifiche(true);
+        }
 
         spesa spesa_aggiornata = new spesa(
             modifica.getVecchiaSpesa().getId(), 
@@ -106,12 +92,19 @@ public class controllerAdmin {
 
     @PostMapping(value="rifiutaModifica/{id}")
     public ModelAndView rifiutaModifica(@PathVariable("id") Long id_modifica,Principal principal) {
+        modifica modifica = modificaRepo.getReferenceById(id_modifica);
+
+        if(modifica.getVecchiaSpesa().getMatricola().compareTo(principal.getName())==0){
+            log.warn("[ADMIN " + principal.getName() + "] CONFLITTO TENTATA CANCELLAZIONE ID: " + id_modifica +" ESITO : Bloccata");
+            return componiListaModifiche(true);
+        }
+
         modificaRepo.delete(modificaRepo.getReferenceById(id_modifica));
         log.warn("[ADMIN " + principal.getName() + "] PROCESSATA MODIFICA ID: " + id_modifica +" ESITO : Rifiutata");
         return getListaModifiche();
     }
 
-    private ModelAndView ComponiListaSpese(boolean errore){
+    private ModelAndView componiListaSpese(boolean errore){
         List<spesa> allspese = speseRepo.findAll();
         List<dtoSpesaConMatricola> allspesematricola = new ArrayList<>();
         Integer contatoreSpese = 0;
@@ -129,5 +122,27 @@ public class controllerAdmin {
         mv.addObject("lista_spese", allspesematricola);
         mv.setViewName("listaSpeseAdmin");
         return mv;  
+    }
+
+    private ModelAndView componiListaModifiche(boolean error){
+        List<modifica> lista_modifiche = new ArrayList<>(modificaRepo.findAll());
+        List<dtoModificaDettaglio> lista_modifiche_dto= new ArrayList<>();
+        for (modifica modifica : lista_modifiche) {
+            dtoModificaDettaglio dto = new dtoModificaDettaglio(
+                                            modifica.getId(), 
+                                            modifica.getNuovoTotale(), 
+                                            modifica.getNuovaData(), 
+                                            Encode.forHtml(modifica.getNuovaDescrizione())  , 
+                                            modifica.getVecchiaSpesa().getId(), 
+                                            modifica.getVecchiaSpesa().getTotale(), 
+                                            modifica.getVecchiaSpesa().getData(), 
+                                            Encode.forHtml(modifica.getVecchiaSpesa().getDescription()) );
+            lista_modifiche_dto.add(dto);
+        }
+
+        mv.addObject("errore_conflitto_modifica",error);
+        mv.addObject("lista_modifiche", lista_modifiche_dto);
+        mv.setViewName("listaModificheAdmin");
+        return mv;
     }
 }

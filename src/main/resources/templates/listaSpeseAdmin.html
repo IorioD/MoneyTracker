@@ -68,15 +68,9 @@
     </div>
 
     <div class="container my-2">
-        
-            <!-- Refresh Button -->
-            
-
-            &nbsp; &nbsp;
-            
-            <div th:if="${error_modifica_pending}">
-                <h3 class="text-center text-danger">Sono presenti modifiche in sospeso per la spesa selezionata!</h3>
-            </div>
+        <div th:if="${error_modifica_pending}">
+            <h3 class="text-center text-warning">Sono presenti modifiche in sospeso per la spesa selezionata!</h3>
+        </div>
         
     </div>
 </body>

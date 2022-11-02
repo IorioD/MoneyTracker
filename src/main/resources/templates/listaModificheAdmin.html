@@ -80,6 +80,12 @@
             </tbody>
         </table>
     </div>
+    <div class="container my-2">       
+        <div th:if="${errore_conflitto_modifica}">
+            <h3 class="text-center text-warning">Impossibile processare modifica: conflitto matricola!</h3>
+        </div>
+   
+</div>
 
 
 </body>
